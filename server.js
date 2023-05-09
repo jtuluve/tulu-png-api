@@ -34,7 +34,7 @@ drawMultilineText(
       font: 'tulu',
       verbose: true,
       lineHeight: 1,
-      minFontSize: 100,
+      minFontSize: 10,
       maxFontSize: 700
   }
 )
@@ -127,6 +127,7 @@ function drawMultilineText(ctx, text, opts) {
   let lastFittingFont;
   let lastFittingY;
   let lastFittingLineHeight;
+  let wordNotFit = 0;
   for (var fontSize = opts.minFontSize; fontSize <= opts.maxFontSize; fontSize++) {
 
       // Line height
@@ -140,35 +141,29 @@ function drawMultilineText(ctx, text, opts) {
       y = lineHeight; //modified line        // setting to lineHeight as opposed to fontSize (addressing issue 1)
       lines = []
       var line = ''
-      let wordNotFit = 0
+      //let wordNotFit = 0
       // Cycles on words
 
-      let oldWord = null
      
       for (var word of words) {
           // Add next word to line
-          var linePlus = oldWord || line + word + ' '
-          oldWord = null
+          if(ctx.measureText(word).width > (opts.rect.width)){
+            wordNotFit = 1;
+            break
+          }
+          var linePlus = line + word + ' '
           // If added word exceeds rect width...
           if (ctx.measureText(linePlus).width > (opts.rect.width)|| word ==="\n") {
-            console.log(linePlus.split(" ").filter((i)=>{return i!=""}))
-            if(ctx.measureText(linePlus).width > (opts.rect.width) && linePlus.split(" ").filter((i)=>{return i!=""}).length == 1){
-              
-              wordNotFit = 1
-              break
+            // ..."prints" (save) the line without last word
+            lines.push({ text: line, x: x, y: y })
+            // New line with ctx last word
+            if(word!=="\n"){
+              line = word + " "
+            }else{
+              line = ""
             }
-              // ..."prints" (save) the line without last word
-              if(line!="")
-                lines.push({ text: line, x: x, y: y })
-              // New line with ctx last word
-              if(word!=="\n"){
-                  line = ""
-                  oldWord = word
-              }else{
-                  line = ""
-              }
               
-              y += lineHeight
+            y += lineHeight
           } else {
               // ...continues appending words
               line = linePlus
@@ -181,8 +176,6 @@ function drawMultilineText(ctx, text, opts) {
       // If bottom of rect is reached then breaks "fontSize" cycle
           
       if (y > opts.rect.height||wordNotFit) {
-        line = ""
-        wordNotFit = 0
         break;
       }                                          
           
