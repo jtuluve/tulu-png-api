@@ -6,19 +6,23 @@ const { createCanvas, registerFont, deregisterAllFonts } = require("canvas");
 const fs = require("fs");
 //** image function **
 function image(text, userColor, userFont, count) {
-  
-  registerFont(`${userFont}.otf` || `${userFont}.ttf` || "baravu.otf", { family: "tulu" });
+  let fonts = {
+    "baravu":"baravu.otf",
+    "allige":"allige.ttf",
+    "mandara":"mandara.ttf"
+  }
+  registerFont(`${fonts[userFont]}`, { family: "tulu" });
 
 
 
   const canvas = createCanvas(2000, 2000)
   const context = canvas.getContext('2d')
   
-  context.fillRect(0, 0, 2000, 2000)
-  context.clearRect(0,0,2000,2000)
+//  context.fillRect(0, 0, 2000, 2000)
+//  context.clearRect(0,0,2000,2000)
   
   context.textAlign = 'center';
-  context.textBaseline = 'middle';
+  context.textBaseline = 'top';
   context.fillStyle = userColor;
   
 drawMultilineText(
@@ -33,7 +37,7 @@ drawMultilineText(
       },
       font: 'tulu',
       verbose: true,
-      lineHeight: 1,
+      lineHeight: 1.12,
       minFontSize: 10,
       maxFontSize: 700
   }
@@ -115,7 +119,8 @@ function drawMultilineText(ctx, text, opts) {
       opts.logFunction = function (message) { console.log(message) }
 
 
-  const words = text.replace(/\n/g, ' \n ').split(" ").filter((i)=>{return i!=""})
+  let words = text.replace(/\n/g, ' \n ').split(" ")
+  words = words.filter((i)=>{return i!=""})
   if (opts.verbose) opts.logFunction('Text contains ' + words.length + ' words')
   var lines = []
   let y;  //New Line
@@ -188,17 +193,23 @@ function drawMultilineText(ctx, text, opts) {
 
   }
 
-  lines = lastFittingLines;                   // assigning last fitting values (issue 3)                    
+  lines = lastFittingLines;
+  lines = lines.filter(e=>{return e.text!=""})              // assigning last fitting values (issue 3)                    
   ctx.font = lastFittingFont;                                                                   
   if (opts.verbose) opts.logFunction("Font used: " + ctx.font);
-  const offset = opts.rect.y - lastFittingLineHeight / 2 + (opts.rect.height - lastFittingY) / 2;     // modifying calculation (issue 2)
-  for (var line of lines)
+  const offset = (opts.rect.height - ((lines[lines.length-1].y+lastFittingLineHeight)-lines[0].y))/2;
+  //const offset = opts.rect.y - lastFittingLineHeight / 2 + (opts.rect.height - lastFittingY) / 2;
+  console.log(offset)     // modifying calculation (issue 2)
+  let i = 0
+  for (var line of lines){
       // Fill or stroke
       if (opts.stroke)
-          ctx.strokeText(line.text.trim(), line.x, line.y + offset) //modified line
-      else
-          ctx.fillText(line.text.trim(), line.x, line.y + offset) //modified line
-
+          ctx.strokeText(line.text.trim(), line.x, line.y+offset) //modified line
+      else{
+          ctx.fillText(line.text.trim(), line.x, offset+lastFittingLineHeight*i) //modified line
+      }
+      i++
+  }
   // Returns font size
   return fontSize
 }
