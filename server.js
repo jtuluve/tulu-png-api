@@ -11,7 +11,7 @@ function image(text, userColor, userFont, count) {
     "allige":"allige.ttf",
     "mandara":"mandara.ttf"
   }
-  registerFont(`${fonts[userFont]}`, { family: "tulu" });
+  registerFont(`./fonts/${fonts[userFont]}`||`./fonts/baravu.otf`, { family: "tulu" });
 
 
 
