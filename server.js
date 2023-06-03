@@ -194,7 +194,7 @@ function drawMultilineText(ctx, text, opts) {
   }
 
   lines = lastFittingLines;
-  lines = lines.filter(e=>{return e.text!=""})              // assigning last fitting values (issue 3)                    
+  //lines = lines.filter(e=>{return e.text!=""})              // assigning last fitting values (issue 3)                    
   ctx.font = lastFittingFont;                                                                   
   if (opts.verbose) opts.logFunction("Font used: " + ctx.font);
   const offset = (opts.rect.height - ((lines[lines.length-1].y+lastFittingLineHeight)-lines[0].y))/2;
