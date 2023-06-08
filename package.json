@@ -1,10 +1,10 @@
 {
-    "name": "glitch-mvp-node",
+    "name": "tulu-png-api",
     "version": "0.1.0",
-    "description": "A simple Node app built on fastify, instantly up and running.",
+    "description": "Api to generate tulu script png",
     "main": "server.js",
     "scripts": {
-        "start": "npm run start"
+        "start": "node server.js"
     },
     "dependencies": {
         "@types/node": "^18.0.6",
@@ -19,7 +19,7 @@
         "node": "14.x"
     },
     "repository": {
-        "url": "https://glitch.com/edit/#!/glitch-mvp-node"
+        "url": ""
     },
     "license": "MIT",
     "keywords": [
