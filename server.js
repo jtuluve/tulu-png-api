@@ -46,6 +46,7 @@ function image(text, userColor, userFont, count) {
   });
 
   const buffer = canvas.toBuffer("image/png");
+  if (!fs.existsSync("./images")) fs.mkdirSync("./images", { recursive: true });
   fs.writeFileSync(`./images/${count}.png`, buffer, { flag: "w+" });
 
   deregisterAllFonts();
