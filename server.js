@@ -46,7 +46,7 @@ function image(text, userColor, userFont, count) {
   });
 
   const buffer = canvas.toBuffer("image/png");
-  fs.writeFileSync(`./images/${count}.png`, buffer);
+  fs.writeFileSync(`./images/${count}.png`, buffer, { flag: "w+" });
 
   deregisterAllFonts();
   return `${process.env.URL}/images/${count}.png`;
