@@ -75,7 +75,9 @@ app.get("/image", async (req, res) => {
     console.log(e);
   }
   count += 1;
-  fs.rm(`./images/${count - 5}.png`, (err) => {});
+  try {
+    fs.rm(`./images/${count - 5}.png`, (err) => {});
+  } catch {}
   let url = image(text, color, font, count);
   res.json({ url });
 });
