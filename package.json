@@ -1,5 +1,5 @@
 {
-    "name": "glitch-mvp-node",
+    "name": "tulu-png-api",
     "version": "0.1.0",
     "description": "A simple Node app built on fastify, instantly up and running.",
     "main": "server.js",
@@ -15,15 +15,8 @@
         "node-gyp": "^8.2.0",
         "words-array": "^1.0.1"
     },
-    "engines": {
-        "node": "14.x"
-    },
-    "repository": {
-        "url": "https://glitch.com/edit/#!/glitch-mvp-node"
-    },
     "license": "MIT",
     "keywords": [
-        "node",
-        "glitch"
+        "node"
     ]
 }
