@@ -1,7 +1,7 @@
 {
     "name": "tulu-png-api",
     "version": "0.1.0",
-    "description": "A simple Node app built on fastify, instantly up and running.",
+    "description": "Api to generate tulu script png",
     "main": "server.js",
     "scripts": {
         "start": "node server.js"
