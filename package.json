@@ -13,6 +13,9 @@
         "dotenv": "^16.4.7",
         "express": "^4.18.2"
     },
+    "pkg": {
+        "assets": "node_modules/canvas/**/*"
+    },
     "license": "MIT",
     "keywords": [
         "node"
