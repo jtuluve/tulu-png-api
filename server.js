@@ -87,6 +87,8 @@ app.listen(process.env.PORT || 3000, () => {
   console.log("Server running on port 3000");
 });
 
+export default app;
+
 /* function end */
 
 //image generator function
