@@ -2,3 +2,4 @@ images
 count.json
 node_modules
 .env
+.vercel
