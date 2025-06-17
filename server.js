@@ -5,6 +5,7 @@ require("dotenv").config();
 const { createCanvas, registerFont, deregisterAllFonts } = require("canvas");
 const fs = require("fs");
 const supabase = createClient(process.env.DB_URL, process.env.DB_KEY);
+import path from "path";
 
 //** image function **
 function image(text, userColor, userFont, count) {
