@@ -46,14 +46,17 @@ function image(text, userColor, userFont, count) {
   });
 
   const buffer = canvas.toBuffer("image/png");
-  if (!fs.existsSync("./images")) fs.mkdirSync("./images", { recursive: true });
-  fs.writeFileSync(`./images/${count}.png`, buffer, { flag: "w+" });
+  if (!fs.existsSync(path.join(process.cwd(), "./images")))
+    fs.mkdirSync(path.join(process.cwd(), "./images", { recursive: true }));
+  fs.writeFileSync(path.join(process.cwd(), `./images/${count}.png`), buffer, {
+    flag: "w+",
+  });
 
   deregisterAllFonts();
   return `${process.env.URL}/images/${count}.png`;
 }
 
-app.use(express.static(__dirname));
+app.use(express.static(process.cwd()));
 
 app.get(`/`, (req, res) => {
   res.json({ success: true });
@@ -77,7 +80,7 @@ app.get("/image", async (req, res) => {
   }
   count += 1;
   try {
-    fs.rm(`./images/${count - 5}.png`, (err) => {});
+    fs.rm(path.join(process.cwd(), `./images/${count - 5}.png`), (err) => {});
   } catch {}
   let url = image(text, color, font, count);
   res.json({ url });
