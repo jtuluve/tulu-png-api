@@ -5,10 +5,11 @@ require("dotenv").config();
 const { createCanvas, registerFont, deregisterAllFonts } = require("canvas");
 const fs = require("fs");
 const supabase = createClient(process.env.DB_URL, process.env.DB_KEY);
+import { put } from "@vercel/blob";
 import path from "path";
 
 //** image function **
-function image(text, userColor, userFont, count) {
+async function image(text, userColor, userFont, count) {
   let fonts = {
     baravu: "baravu.otf",
     allige: "allige.ttf",
@@ -47,14 +48,13 @@ function image(text, userColor, userFont, count) {
   });
 
   const buffer = canvas.toBuffer("image/png");
-  if (!fs.existsSync(path.join(process.cwd(), "./images")))
-    fs.mkdirSync(path.join(process.cwd(), "./images"), { recursive: true });
-  fs.writeFileSync(path.join(process.cwd(), `./images/${count}.png`), buffer, {
-    flag: "w+",
+  const blob = await put(`tulu-${count}.png`, buffer, {
+    access: "public",
+    contentType: "image/png",
   });
 
   deregisterAllFonts();
-  return `${process.env.URL}/images/${count}.png`;
+  return blob.url;
 }
 
 app.use(express.static(process.cwd()));
@@ -64,26 +64,28 @@ app.get(`/`, (req, res) => {
 });
 
 app.get("/image", async (req, res) => {
-  let text = req.query.text || "tulu";
-  text = decodeURIComponent(text);
+  let text = decodeURIComponent(req.query.text || "tulu");
   let font = req.query.font || "baravu";
   let color = req.query.color || "red";
   let count = 0;
+
   try {
-    count = (await supabase.from("count").select("count").limit(1).single())
-      .data.count;
+    const result = await supabase
+      .from("count")
+      .select("count")
+      .limit(1)
+      .single();
+    count = result.data.count;
     await supabase
       .from("count")
       .update({ count: count + 1 })
       .eq("id", 0);
   } catch (e) {
-    console.log(e);
+    console.error(e);
   }
+
   count += 1;
-  try {
-    fs.rm(path.join(process.cwd(), `./images/${count - 5}.png`), (err) => {});
-  } catch {}
-  let url = image(text, color, font, count);
+  const url = await image(text, color, font, count);
   res.json({ url });
 });
 
