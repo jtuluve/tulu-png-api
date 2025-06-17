@@ -6,7 +6,6 @@ const { createCanvas, registerFont, deregisterAllFonts } = require("canvas");
 const fs = require("fs");
 const supabase = createClient(process.env.DB_URL, process.env.DB_KEY);
 import { put } from "@vercel/blob";
-import path from "path";
 
 //** image function **
 async function image(text, userColor, userFont, count) {
@@ -82,6 +81,7 @@ app.get("/image", async (req, res) => {
       .eq("id", 0);
   } catch (e) {
     console.error(e);
+    count = 0;
   }
 
   count += 1;
