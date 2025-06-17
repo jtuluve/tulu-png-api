@@ -83,9 +83,11 @@ app.get("/image", async (req, res) => {
   res.json({ url });
 });
 
-exports.default = app.listen(process.env.PORT || 3000, () => {
+app.listen(process.env.PORT || 3000, () => {
   console.log("Server running on port 3000");
 });
+
+exports.default = app;
 
 /* function end */
 
