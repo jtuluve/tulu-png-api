@@ -48,7 +48,7 @@ function image(text, userColor, userFont, count) {
 
   const buffer = canvas.toBuffer("image/png");
   if (!fs.existsSync(path.join(process.cwd(), "./images")))
-    fs.mkdirSync(path.join(process.cwd(), "./images", { recursive: true }));
+    fs.mkdirSync(path.join(process.cwd(), "./images"), { recursive: true });
   fs.writeFileSync(path.join(process.cwd(), `./images/${count}.png`), buffer, {
     flag: "w+",
   });
