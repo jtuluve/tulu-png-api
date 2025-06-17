@@ -5,7 +5,7 @@ require("dotenv").config();
 const { createCanvas, registerFont, deregisterAllFonts } = require("canvas");
 const fs = require("fs");
 const supabase = createClient(process.env.DB_URL, process.env.DB_KEY);
-import { put } from "@vercel/blob";
+import { put, del } from "@vercel/blob";
 
 //** image function **
 async function image(text, userColor, userFont, count) {
@@ -51,6 +51,7 @@ async function image(text, userColor, userFont, count) {
     access: "public",
     contentType: "image/png",
   });
+  del(`tulu-${count - 5}.png`).catch(() => null);
 
   deregisterAllFonts();
   return blob.url;
