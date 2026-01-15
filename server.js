@@ -50,6 +50,7 @@ async function image(text, userColor, userFont, count) {
   const blob = await put(`tulu-${count}.png`, buffer, {
     access: "public",
     contentType: "image/png",
+    allowOverwrite: true,
   });
   del(`tulu-${count - 5}.png`).catch(() => null);
 
