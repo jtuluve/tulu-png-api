@@ -1,10 +1,13 @@
 const express = require("express");
 const app = express();
-const { createClient } = require("@supabase/supabase-js");
+const KVStore = require("litekv");
 require("dotenv").config();
 const { createCanvas, registerFont, deregisterAllFonts } = require("canvas");
 const fs = require("fs");
-const supabase = createClient(process.env.DB_URL, process.env.DB_KEY);
+const store = new KVStore(process.env.LITEKV_APP_ID, {
+  api_url: "https://litekv.vercel.app",
+  shouldCache: true,
+});
 import { put, del } from "@vercel/blob";
 
 //** image function **
@@ -71,16 +74,9 @@ app.get("/image", async (req, res) => {
   let count = 0;
 
   try {
-    const result = await supabase
-      .from("count")
-      .select("count")
-      .limit(1)
-      .single();
-    count = result.data.count;
-    await supabase
-      .from("count")
-      .update({ count: count + 1 })
-      .eq("id", 0);
+    const countValue = await store.get("count");
+    count = countValue ? parseInt(countValue, 10) : 0;
+    await store.set("count", String(count + 1));
   } catch (e) {
     console.error(e);
     count = 0;
