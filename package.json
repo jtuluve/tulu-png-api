@@ -12,7 +12,7 @@
         "canvas": "^2.11.2",
         "dotenv": "^16.4.7",
         "express": "^4.18.2",
-        "litekv": "^1.0.0"
+        "litekv": "^1.0.1"
     },
     "pkg": {
         "assets": "node_modules/canvas/**/*"
