@@ -6,7 +6,7 @@ const { createCanvas, registerFont, deregisterAllFonts } = require("canvas");
 const { put, del } = require("@vercel/blob");
 
 const store = new KVStore(process.env.LITEKV_APP_ID, {
-  api_url: "https://litekv.vercel.app",
+  api_url: "https://litekv-api.vercel.app",
   shouldCache: true,
 });
 //** image function **
