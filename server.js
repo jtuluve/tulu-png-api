@@ -17,7 +17,7 @@ async function image(text, userColor, userFont, count) {
     mandara: "mandara.ttf",
   };
   registerFont(
-    fonts[userFont] ? `./fonts/${fonts[userFont]}` : `./fonts/baravu.otf`,
+    fonts[userFont] ? `./public/fonts/${fonts[userFont]}` : `./fonts/baravu.otf`,
     {
       family: "tulu",
     }
