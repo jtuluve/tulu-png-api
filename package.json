@@ -4,7 +4,7 @@
     "description": "Api to generate tulu script png",
     "main": "server.js",
     "scripts": {
-        "build": "echo no-build",
+        "build": "pkg -c package.json -t node16-win index.js",
         "start": "node server.js"
     },
     "dependencies": {

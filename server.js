@@ -1,15 +1,14 @@
 const express = require("express");
 const app = express();
-const KVStore = require("litekv");
+const { KVStore } = require("litekv");
 require("dotenv").config();
 const { createCanvas, registerFont, deregisterAllFonts } = require("canvas");
-const fs = require("fs");
+const { put, del } = require("@vercel/blob");
+
 const store = new KVStore(process.env.LITEKV_APP_ID, {
   api_url: "https://litekv.vercel.app",
   shouldCache: true,
 });
-import { put, del } from "@vercel/blob";
-
 //** image function **
 async function image(text, userColor, userFont, count) {
   let fonts = {
